@@ -8,6 +8,8 @@ export default {
   props: {},
   data() {
     return {
+      isInvoiceDemo: false,
+      isRoomDemo: false,
       totalProductCount: 0,
       categories: [
         {
@@ -25,13 +27,13 @@ export default {
       ],
       selectedCategory: 1,
       invProducts: [
-        {
+        /*{
           product_name: "test1",
           category: "1",
           price: 100,
           discount: 5,
           total: 95,
-        },
+        },*/
       ],
       invProdForDisplay: [],
     };
@@ -49,7 +51,7 @@ export default {
       this.invProducts.push(tempProduct);
     },
     removeProduct(index) {
-      this.invProducts.splice(0, index);
+      this.invProducts.splice(index, 1);
     },
     generateTable() {
       let tempInvProd = this.invProducts.map((invProd) => {
@@ -57,7 +59,7 @@ export default {
           return cat.name == invProd.category;
         });
         console.log(catDetail);
-        // invProd.category = catDetail[0].display;
+        invProd.category = catDetail[0].display;
         return invProd;
       });
 
@@ -65,6 +67,11 @@ export default {
     },
     calculateDiscount(product) {
       console.log(product);
+      product.total = product.price;
+      if (product.discount != null) {
+        let discount = (product.price * product.discount) / 100;
+        product.total = product.price - discount;
+      }
     },
   },
 };
@@ -79,8 +86,19 @@ export default {
       width="125"
       height="125"
     />
+    <div class="vue-demo">
+      <button @click="this.isInvoiceDemo = this.isInvoiceDemo == 1 ? 0 : 1">
+        <span v-if="this.isInvoiceDemo == 1">Hide</span
+        ><span v-else>Show</span> Invoice Demo
+      </button>
+      <button @click="this.isRoomDemo = this.isRoomDemo == 1 ? 0 : 1">
+        <span v-if="this.isRoomDemo == 1">Hide</span
+        ><span v-else>Show</span> Room Demo
+      </button>
+    </div>
 
-    <div class="wrapper">
+    <!-- INVOICE DEMO CODE START -->
+    <div class="invoice-wrapper" v-show="isInvoiceDemo">
       <!-- <HelloWorld msg="You did it!" /> -->
       <div class="invoice-head">
         <div class="add-more">
@@ -92,10 +110,10 @@ export default {
           :key="index"
         >
           <div class="product-name inv-pading inv-border">
-            <input type="text" :value="product.product_name" />
+            <input type="text" v-model="product.product_name" />
           </div>
           <div class="product-category inv-pading inv-border">
-            <select>
+            <select v-model="product.category">
               <option
                 v-for="(category, index) in categories"
                 :key="index"
@@ -108,18 +126,22 @@ export default {
           <div class="product-price inv-pading inv-border">
             <input
               type="number"
-              :value="product.price"
+              v-model="product.price"
               @keyup="calculateDiscount(product)"
             />
           </div>
           <div class="product-discount inv-pading inv-border">
-            <input type="number" :value="product.discount" />
+            <input
+              type="number"
+              v-model="product.discount"
+              @keyup="calculateDiscount(product)"
+            />
           </div>
           <div class="product-total inv-pading inv-border">
-            <input type="number" :value="product.total" />
+            <input type="number" v-model="product.total" />
           </div>
           <div class="remove-product inv-pading inv-border" style="width: 32px">
-            <div v-if="index != 0">
+            <div>
               <button @click="removeProduct(index)" style="font-weight: bold">
                 -
               </button>
@@ -164,6 +186,9 @@ export default {
         </div>
       </div>
     </div>
+
+    <!-- ROOM DEMO CODE START -->
+    <div class="invoice-wrapper" v-show="isInvoiceDemo"></div>
   </header>
 
   <!-- <RouterView /> -->
@@ -180,6 +205,10 @@ header {
   margin: 0 auto 2rem;
 }
 
+.invoice-wrapper {
+  border: 1px solid;
+  padding: 15px;
+}
 .inv-prod {
   display: flex;
 }
