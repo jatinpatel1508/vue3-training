@@ -1,16 +1,17 @@
 <script>
 // import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "./components/HelloWorld.vue";
+import RoomDemo from "./components/RoomDemo.vue";
 
 export default {
   name: "App",
-  components: {},
+  components: { RoomDemo },
   props: {},
   data() {
     return {
       isInvoiceDemo: false,
       isRoomDemo: false,
-      totalProductCount: 0,
+      isDisplayInvoiceJson: 0,
       categories: [
         {
           name: "1",
@@ -47,7 +48,6 @@ export default {
         discount: null,
         total: null,
       };
-      this.totalProductCount += 1;
       this.invProducts.push(tempProduct);
     },
     removeProduct(index) {
@@ -160,7 +160,9 @@ export default {
             Product Category
           </div>
           <div class="tbl-prod-price-head inv-head-pading">Product Price</div>
-          <div class="tbl-prod-disc-head inv-head-pading">Product Discount</div>
+          <div class="tbl-prod-disc-head inv-head-pading">
+            Product Discount (%)
+          </div>
           <div class="tbl-prod-total-head inv-head-pading">Product Total</div>
         </div>
         <div
@@ -185,10 +187,17 @@ export default {
           </div>
         </div>
       </div>
+
+      <button class="show-room-json" @click="isDisplayInvoiceJson = 1">
+        Display Invoice JSON
+      </button>
+      <pre v-show="isDisplayInvoiceJson">{{ invProducts }}</pre>
     </div>
 
     <!-- ROOM DEMO CODE START -->
-    <div class="invoice-wrapper" v-show="isInvoiceDemo"></div>
+    <div v-show="isRoomDemo">
+      <room-demo />
+    </div>
   </header>
 
   <!-- <RouterView /> -->
