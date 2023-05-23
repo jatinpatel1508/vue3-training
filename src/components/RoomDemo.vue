@@ -71,6 +71,30 @@ export default {
       room.child -= room.child != 0 ? 1 : 0;
     },
   },
+  beforeCreate() {
+    console.log("beforeCreate() from roomDemo...");
+  },
+  created() {
+    console.log("created() from roomDemo...");
+  },
+  beforeMount() {
+    console.log("beforeMount() from roomDemo...");
+  },
+  mounted() {
+    console.log("mounted() from roomDemo...");
+  },
+  beforeUpdate() {
+    console.log("beforeUpdate() from roomDemo...");
+  },
+  updated() {
+    console.log("updated() from roomDemo...");
+  },
+  beforeUnmount() {
+    console.log("beforeUnmount() from roomDemo...");
+  },
+  unmounted() {
+    console.log("unmounted() from roomDemo...");
+  },
 };
 </script>
 

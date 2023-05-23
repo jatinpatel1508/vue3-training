@@ -2,15 +2,17 @@
 // import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "./components/HelloWorld.vue";
 import RoomDemo from "./components/RoomDemo.vue";
+import ApiDemo from "./components/ApiDemo.vue";
 
 export default {
   name: "App",
-  components: { RoomDemo },
+  components: { RoomDemo, ApiDemo },
   props: {},
   data() {
     return {
       isInvoiceDemo: false,
       isRoomDemo: false,
+      isAPIDemo: false,
       isDisplayInvoiceJson: 0,
       categories: [
         {
@@ -74,6 +76,30 @@ export default {
       }
     },
   },
+  beforeCreate() {
+    console.log("beforeCreate() from parent...");
+  },
+  created() {
+    console.log("created() from parent...");
+  },
+  beforeMount() {
+    console.log("beforeMount() from parent...");
+  },
+  mounted() {
+    console.log("mounted() from parent...");
+  },
+  beforeUpdate() {
+    console.log("beforeUpdate() from parent...");
+  },
+  updated() {
+    console.log("updated() from parent...");
+  },
+  beforeUnmount() {
+    console.log("beforeUnmount() from parent...");
+  },
+  unmounted(){
+    console.log("unmounted() from parent...");
+  }
 };
 </script>
 
@@ -94,6 +120,10 @@ export default {
       <button @click="this.isRoomDemo = this.isRoomDemo == 1 ? 0 : 1">
         <span v-if="this.isRoomDemo == 1">Hide</span
         ><span v-else>Show</span> Room Demo
+      </button>
+      <button @click="this.isAPIDemo = this.isAPIDemo == 1 ? 0 : 1">
+        <span v-if="this.isAPIDemo == 1">Hide</span><span v-else>Show</span> API
+        Demo
       </button>
     </div>
 
@@ -197,6 +227,10 @@ export default {
     <!-- ROOM DEMO CODE START -->
     <div v-show="isRoomDemo">
       <room-demo />
+    </div>
+
+    <div v-if="isAPIDemo">
+      <api-demo />
     </div>
   </header>
 
